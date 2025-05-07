@@ -1,0 +1,90 @@
+#root {
+  width: 100%;
+  margin: 0;
+  padding: 1rem;
+}
+
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+
+
+.read-the-docs {
+  color: #888;
+}
+.list{
+  display: flex;
+}
+.m-4{
+  margin: 2rem;
+}
+.header {
+  background-color: #fff;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+  color: #747bff;
+  text-decoration: none;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.search-container {
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  color: gray;
+  font-size: 14px;
+}
+
+.search-input {
+  padding: 6px 12px 6px 30px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+.user-icon {
+  font-size: 20px;
+  color: #555;
+  cursor: pointer;
+}
+
+/* Footer */
+.footer {
+  background-color: #222;
+  color: white;
+  padding: 24px;
+  text-align: center;
+  font-size: 14px;
+  margin-top: 40px;
+}
