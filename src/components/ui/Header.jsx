@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaSearch, FaUser } from 'react-icons/fa';
 
-export default function Header() {
+export const Header= () => {
     return (
         <header className="header">
             <Link to="/" className="logo">Mắt kính thời trang</Link>

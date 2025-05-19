@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Footer() {
+export const Footer= () => {
     return (
         <footer className="footer">
             <p>© 2025 Kính Thời Trang</p>
