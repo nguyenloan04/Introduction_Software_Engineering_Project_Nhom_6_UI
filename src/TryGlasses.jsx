@@ -1,7 +1,9 @@
 import React, { useRef, useEffect, useState } from 'react';
 import Webcam from 'react-webcam';
+import { useParams } from 'react-router-dom';
 
 const TryGlasses = () => {
+  const { glassesUrl } = useParams();
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
   const [socket, setSocket] = useState(null);
@@ -10,16 +12,23 @@ const TryGlasses = () => {
   // Kết nối WebSocket đến FastAPI
   useEffect(() => {
     const ws = new WebSocket('ws://localhost:8000/ws');
-    ws.onopen = () => console.log('WebSocket connected');
+    ws.onopen = () => {
+      console.log('WebSocket connected');
+      ws.send(JSON.stringify({ glassesUrl }));
+    };
     ws.onmessage = (event) => {
       // Nhận ảnh đã ghép kính (base64)
       setImgResult(event.data);
     };
     ws.onerror = (e) => console.error('WebSocket error', e);
     ws.onclose = () => console.log('WebSocket closed');
+
     setSocket(ws);
-    return () => ws.close();
-  }, []);
+
+    return () => {
+      ws.close();
+    };
+  }, [glassesUrl]);
 
   // Gửi hình từ webcam qua WebSocket
   useEffect(() => {
@@ -27,22 +36,23 @@ const TryGlasses = () => {
       if (
         webcamRef.current &&
         socket &&
-        socket.readyState === WebSocket.OPEN
+        socket.readyState === WebSocket.OPEN &&
+        glassesUrl // Chỉ gửi khi đã chọn kính
       ) {
         const imageSrc = webcamRef.current.getScreenshot();
-        console.log('getScreenshot:', imageSrc ? imageSrc.substring(0, 100) : 'null', webcamRef.current.video ? webcamRef.current.video.videoWidth : 'no video');
         // Chỉ gửi nếu ảnh base64 đủ dài (tránh ảnh trống)
         if (imageSrc && imageSrc.length > 1000 && imageSrc.startsWith('data:image')) {
-          console.log('Frame gửi lên:', imageSrc.substring(0, 50));
-          socket.send(imageSrc);
-        } else {
-          console.log('Frame bỏ qua (ảnh trống hoặc quá nhỏ)');
+          const payload = {
+            image: imageSrc,
+            glasses_url: glassesUrl,
+          };
+          socket.send(JSON.stringify(payload)); // Gửi frame + URL kính
         }
       }
-    }, 300); // Gửi chậm lại để debug
+    }, 300); 
 
     return () => clearInterval(interval);
-  }, [socket]);
+  }, [socket, glassesUrl]);
 
   // Hiển thị ảnh kết quả lên canvas
   useEffect(() => {
@@ -62,6 +72,7 @@ const TryGlasses = () => {
 
   return (
     <div style={{ position: 'relative', textAlign: 'center' }}>
+      <h2>Thử kính</h2>
       {/* Ẩn video, chỉ dùng để lấy frame */}
       <Webcam
         ref={webcamRef}

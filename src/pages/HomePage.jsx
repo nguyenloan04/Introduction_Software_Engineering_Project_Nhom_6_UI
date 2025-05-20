@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import {useEffect} from 'react'
 
 import '../Homepage.css'
 import React from 'react';
@@ -8,13 +8,18 @@ import {AllProducts} from "@/components/AllProducts.jsx";
 import {SuggestProducts} from "@/components/SuggestProducts.jsx";
 
 function HomePage() {
-    const userId =1 ;
+    const userId = 1 ;
+
+    const handleSelectGlasses = (url) => {
+        console.log('Selected glasses URL:', url);
+    };
+
     return (
         <div>
             <Header/>
             <div className="list">
                 <h2>Tất cả sản phẩm</h2>
-                <AllProducts />
+                <AllProducts onSelectGlasses={handleSelectGlasses} />
             </div>
             <div className="list">
                 <h2>Sản phẩm được gợi ý</h2>
