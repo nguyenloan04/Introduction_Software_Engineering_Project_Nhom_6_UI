@@ -1,66 +1,65 @@
-.register-form {
-  max-width: 420px;
-  margin: 48px auto;
-  padding: 36px 28px;
-  background: #f8fafc;
-  border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(100, 108, 255, 0.08);
+.register-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  z-index: 1;
+}
+
+.register-title {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #263143;
+  margin-bottom: 30px;
+}
+
+.register-form {
+  background: #f7fafd;
+  border-radius: 20px;
+  padding: 40px 32px;
+  box-shadow: 0 4px 24px #e9effd;
+  min-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.register-label {
+  font-weight: bold;
+  color: #263143;
+  font-size: 1.1rem;
+  text-align: left;
+}
+
+.register-input {
+  padding: 12px;
+  border-radius: 8px;
   border: 1px solid #e0e7ef;
+  font-size: 1rem;
 }
 
-.register-form label {
-  font-weight: 600;
-  margin-bottom: 8px;
-  display: block;
-  color: #22223b;
-  letter-spacing: 0.02em;
-}
-
-.register-form input {
-  width: 100%;
-  padding: 12px 14px;
-  border: 1.5px solid #cdd2e0;
-  border-radius: 8px;
-  font-size: 1em;
-  margin-bottom: 4px;
-  box-sizing: border-box;
-  background: #fff;
-  transition: border 0.2s, box-shadow 0.2s;
-}
-
-.register-form input:focus {
-  border-color: #646cff;
-  outline: none;
-  box-shadow: 0 0 0 2px #e0e7ff;
-}
-
-.register-form .error {
-  color: #e74c3c;
-  font-size: 0.97em;
-  margin-top: 2px;
-  display: block;
-}
-
-.register-form button[type="submit"] {
-  background: linear-gradient(90deg, #646cff 60%, #535bf2 100%);
-  color: #fff;
+.register-button {
+  margin-top: 20px;
+  background: linear-gradient(90deg, #6a82fb 0%, #fc5c7d 100%);
+  color: white;
+  font-weight: bold;
+  font-size: 1.2rem;
   border: none;
-  padding: 14px;
   border-radius: 8px;
-  font-size: 1.1em;
-  font-weight: 700;
+  padding: 14px 0;
   cursor: pointer;
-  transition: 0.2s, transform 0.15s;
-  margin-top: 8px;
-  box-shadow: 0 2px 8px rgba(100, 108, 255, 0.10);
+  box-shadow: 0 2px 8px #e9effd;
+  transition: background 0.2s;
 }
 
-.register-form button[type="submit"]:hover {
-  background: linear-gradient(90deg, #535bf2 60%, #646cff 100%);
-  transform: translateY(-2px) scale(1.03);
+.register-button:hover {
+  background: linear-gradient(90deg, #fc5c7d 0%, #6a82fb 100%);
 }
 
 @media (max-width: 600px) {
