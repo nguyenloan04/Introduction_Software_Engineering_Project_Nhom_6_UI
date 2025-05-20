@@ -1,4 +1,3 @@
-import {useEffect, useState} from 'react'
 
 import '../Homepage.css'
 import React from 'react';
@@ -8,7 +7,8 @@ import {AllProducts} from "@/components/AllProducts.jsx";
 import {SuggestProducts} from "@/components/SuggestProducts.jsx";
 
 function HomePage() {
-    const userId =1 ;
+    // 4.0 Người dùng truy cập vào trang chủ
+    const userId =2 ;
     return (
         <div>
             <Header/>
