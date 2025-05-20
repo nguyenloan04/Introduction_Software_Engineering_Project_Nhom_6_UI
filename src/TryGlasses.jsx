@@ -5,38 +5,22 @@ const TryGlasses = () => {
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
   const [socket, setSocket] = useState(null);
-  const [landmarks, setLandmarks] = useState(null);
-  const [glassesImg, setGlassesImg] = useState(null);
+  const [imgResult, setImgResult] = useState(null);
 
   // Kết nối WebSocket đến FastAPI
   useEffect(() => {
     const ws = new WebSocket('ws://localhost:8000/ws');
+    ws.onopen = () => console.log('WebSocket connected');
     ws.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      setLandmarks(data);
+      // Nhận ảnh đã ghép kính (base64)
+      setImgResult(event.data);
     };
+    ws.onerror = (e) => console.error('WebSocket error', e);
+    ws.onclose = () => console.log('WebSocket closed');
     setSocket(ws);
     return () => ws.close();
   }, []);
 
-  // Load ảnh kính
-  useEffect(() => {
-    const img = new Image();
-    img.src = 'https://i.imgur.com/Z5LR7Uw.png'; // Ảnh kính mẫu PNG nền trong suốt
-    img.onload = () => setGlassesImg(img);
-  }, []);
-  
-  useEffect(() => {
-    const checkVideo = setInterval(() => {
-      if (webcamRef.current && webcamRef.current.video) {
-        console.log("✅ Webcam video element found.");
-        clearInterval(checkVideo);
-      } else {
-        console.log("⏳ Waiting for webcam...");
-      }
-    }, 500);
-  }, []);
-  
   // Gửi hình từ webcam qua WebSocket
   useEffect(() => {
     const interval = setInterval(() => {
@@ -46,70 +30,55 @@ const TryGlasses = () => {
         socket.readyState === WebSocket.OPEN
       ) {
         const imageSrc = webcamRef.current.getScreenshot();
-        if (imageSrc) {
-          const blob = dataURLtoBlob(imageSrc);
-          socket.send(blob);
+        console.log('getScreenshot:', imageSrc ? imageSrc.substring(0, 100) : 'null', webcamRef.current.video ? webcamRef.current.video.videoWidth : 'no video');
+        // Chỉ gửi nếu ảnh base64 đủ dài (tránh ảnh trống)
+        if (imageSrc && imageSrc.length > 1000 && imageSrc.startsWith('data:image')) {
+          console.log('Frame gửi lên:', imageSrc.substring(0, 50));
+          socket.send(imageSrc);
+        } else {
+          console.log('Frame bỏ qua (ảnh trống hoặc quá nhỏ)');
         }
       }
-    }, 100); // Gửi ảnh 10 lần/giây
+    }, 300); // Gửi chậm lại để debug
 
     return () => clearInterval(interval);
   }, [socket]);
 
-  // Vẽ webcam + kính lên canvas
+  // Hiển thị ảnh kết quả lên canvas
   useEffect(() => {
-    if (
-      webcamRef.current &&
-      canvasRef.current &&
-      landmarks &&
-      glassesImg
-    ) {
+    if (imgResult && canvasRef.current) {
       const canvas = canvasRef.current;
       const ctx = canvas.getContext('2d');
-      const video = webcamRef.current.video;
-
-      // Thiết lập kích thước canvas bằng kích thước video
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-
-      // Vẽ hình từ webcam
-      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-      // Lấy tọa độ mắt từ landmarks
-      const [x1, y1] = landmarks.eye_left;
-      const [x2, y2] = landmarks.eye_right;
-      const width = Math.abs(x2 - x1) * 2; // chiều dài kính
-      const centerX = (x1 + x2) / 2 - width / 2;
-      const centerY = (y1 + y2) / 2 - width / 4;
-
-      // Vẽ kính vào đúng vị trí
-      ctx.drawImage(glassesImg, centerX, centerY, width, width / 2);
+      const img = new window.Image();
+      img.onload = () => {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0, img.width, img.height);
+      };
+      img.src = imgResult;
     }
-  }, [landmarks, glassesImg]);
-
-  // Chuyển ảnh base64 thành Blob để gửi qua socket
-  const dataURLtoBlob = (dataurl) => {
-    const arr = dataurl.split(',');
-    const mime = arr[0].match(/:(.*?);/)[1];
-    const bstr = atob(arr[1]);
-    let n = bstr.length;
-    const u8arr = new Uint8Array(n);
-    while (n--) u8arr[n] = bstr.charCodeAt(n);
-    return new Blob([u8arr], { type: mime });
-  };
+  }, [imgResult]);
 
   return (
     <div style={{ position: 'relative', textAlign: 'center' }}>
-      {/* Ẩn video, vẫn cho render */}
+      {/* Ẩn video, chỉ dùng để lấy frame */}
       <Webcam
         ref={webcamRef}
-        screenshotFormat="image/jpeg"
+        screenshotFormat="image/png"
+        audio={false}
+        width={640}
+        height={480}
         style={{
-            width: '100%',
-            maxWidth: '640px',
-            display: 'block',
-            margin: '0 auto',
-          }}
+          width: '100%',
+          maxWidth: '640px',
+        }}
+        videoConstraints={{
+          width: { ideal: 640, min: 640, max: 640 },
+          height: { ideal: 480, min: 480, max: 480 },
+          aspectRatio: 4 / 3,
+          facingMode: "user"
+        }}
       />
       {/* Canvas để hiển thị kết quả */}
       <canvas
