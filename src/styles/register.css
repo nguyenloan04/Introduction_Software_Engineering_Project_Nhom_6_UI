@@ -35,6 +35,13 @@
   color: #263143;
   font-size: 1.1rem;
   text-align: left;
+  margin-bottom: 6px;
+}
+
+.register-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
 }
 
 .register-input {

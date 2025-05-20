@@ -1,11 +1,11 @@
-import LoginForm from './components/login/LoginForm';
+import RegisterForm from './components/register/RegisterForm';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <h1>Đăng nhập</h1>
-      <LoginForm />
+      <h1>Đăng ký tài khoản</h1>
+      <RegisterForm />
     </div>
   );
 }
