@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 
 const TryGlasses = () => {
   const { glassesUrl } = useParams();
+  console.log('TryGlasses page - glassesUrl:', glassesUrl);
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
   const [socket, setSocket] = useState(null);
