@@ -1,11 +1,12 @@
 import {useEffect, useState} from "react";
 import {ProductList} from "@/components/ui/ProductList.jsx";
+import { config } from "../config/apiConfig";
 
 export const AllProducts= ()=>{
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:5000/api/products')
+        fetch(`${config.BASE_URL}/api/products`)
             .then((res) => res.json())
             .then((data) => {
                 setProducts(data.data.products);

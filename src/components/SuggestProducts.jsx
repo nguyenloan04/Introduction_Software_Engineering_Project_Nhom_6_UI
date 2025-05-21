@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import {ProductList} from "@/components/ui/ProductList.jsx";
+import { config } from "../config/apiConfig";
 
 export const SuggestProducts= ({userId}) =>{
     const [products, setProducts] = useState([]);
@@ -8,8 +9,8 @@ export const SuggestProducts= ({userId}) =>{
 
         //4.1 Kiểm tra xem người dùng đã đăng nhập chưa (userId có null không) và gửi userId về cho server
         const endpoint = userId
-            ? `http://localhost:5000/api/suggested-products/${userId}`
-            : `http://localhost:5000/api/suggested-products/popular`; //4.6 Người dùng chưa đăng nhập (userId=null)
+            ? `${config.BASE_URL}/api/suggested-products/${userId}`
+            : `${config.BASE_URL}/api/suggested-products/popular`; //4.6 Người dùng chưa đăng nhập (userId=null)
 
         fetch(endpoint)
             .then((res) => res.json())
