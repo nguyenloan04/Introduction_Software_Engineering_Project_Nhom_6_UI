@@ -1,7 +1,8 @@
 import {useEffect, useState} from 'react'
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import '../Homepage.css'
-import React from 'react';
 import {Header} from "@/components/ui/Header.jsx";
 import {Footer} from "@/components/ui/Footer.jsx";
 import {AllProducts} from "@/components/AllProducts.jsx";
@@ -9,9 +10,12 @@ import {SuggestProducts} from "@/components/SuggestProducts.jsx";
 
 function HomePage() {
     const userId =1 ;
+    const navigate = useNavigate();
+
     return (
         <div>
             <Header/>
+            
             <div className="list">
                 <h2>Tất cả sản phẩm</h2>
                 <AllProducts />
