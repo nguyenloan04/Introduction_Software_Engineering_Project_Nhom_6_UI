@@ -11,6 +11,8 @@ export const Header= () => {
                     <FaSearch className="search-icon" />
                     <input type="text" placeholder="Tìm kiếm..." className="search-input" />
                 </div>
+                <Link to="/login" className="header-btn">Đăng nhập</Link>
+                {/* <Link to="/register" className="header-btn">Đăng ký</Link> */}
                 <FaUser className="user-icon" />
             </div>
         </header>
