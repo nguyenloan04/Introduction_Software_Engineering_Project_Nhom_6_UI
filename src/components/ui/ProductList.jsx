@@ -1,12 +1,19 @@
 import React from 'react';
 import {ProductCard} from '@/components/ui/Card.jsx';
 import '@/css/productList.css';
+import { addToCart } from '../../services/cartService.js';
 
 export const ProductList = ({ products }) => {
+
+    const handleAddToCart = async (productId, quantity) => {
+        await addToCart(productId, quantity);
+        window.dispatchEvent(new Event("cartUpdated"));
+    };
+
     return (
         <div className="product-grid">
             {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard key={product.id} product={product} addToCart={handleAddToCart} />
             ))}
         </div>
     );
