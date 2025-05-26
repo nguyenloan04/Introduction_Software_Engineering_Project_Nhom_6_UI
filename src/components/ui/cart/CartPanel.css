@@ -48,3 +48,22 @@
   padding: 8px 0;
   border-bottom: 1px solid #eee;
 }
+
+.cart-actions {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.checkout-button {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 16px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.checkout-button:hover {
+  background-color: #218838;
+}
