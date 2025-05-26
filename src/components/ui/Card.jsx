@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from "react-router-dom";
 import "@/css/productCard.css"
 
-export const ProductCard = ({ product }) => {
+export const ProductCard = ({ product, onTryGlasses }) => {
     return (
         <div className="card-element border rounded-lg p-4 bg-white m-3">
                 <img src={product.image_url} alt={product.name} className="card-img mb-2" />
@@ -13,6 +13,14 @@ export const ProductCard = ({ product }) => {
                         Chi tiết sản phẩm
                     </button>
                 </Link>
+                <div style={{ marginTop: '12px' }}>
+                    <button
+                        className="bg-blue-500 text-white py-1 px-3 rounded"
+                        onClick={() => onTryGlasses(product.image_url)}
+                    >
+                        Thử kính
+                    </button>
+                </div>
         </div>
     );
 };
