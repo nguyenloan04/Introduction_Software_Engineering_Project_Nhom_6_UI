@@ -1,0 +1,13 @@
+.product-space{
+    /*max-width: 1200px;*/
+    display: flex;
+    /*height: 100px;*/
+}
+.product-img{
+    object-fit: cover;
+    width: 30% ;
+    margin: 20px;
+}
+.try-on-btn{
+    margin-left: 10px;
+}
