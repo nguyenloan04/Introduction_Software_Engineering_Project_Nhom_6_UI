@@ -1,13 +1,15 @@
-import { useEffect, useState } from "react";
-import { ProductList } from "@/components/ui/ProductList.jsx";
+import {useEffect, useState} from "react";
+import {ProductList} from "@/components/ui/ProductList.jsx";
+import { config } from "../config/apiConfig";
 import { useNavigate } from 'react-router-dom';
+
 
 export const AllProducts = ({ onSelectGlasses }) => {
     const [products, setProducts] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch('http://localhost:5000/api/products')
+        fetch(`${config.BASE_URL}/api/products`)
             .then((res) => res.json())
             .then((data) => {
                 setProducts(data.data.products);

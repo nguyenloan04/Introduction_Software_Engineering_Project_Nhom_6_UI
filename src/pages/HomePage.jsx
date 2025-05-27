@@ -1,34 +1,50 @@
-import {useEffect} from 'react'
-import '../Homepage.css'
-import React from 'react';
-import {Header} from "@/components/ui/Header.jsx";
-import {Footer} from "@/components/ui/Footer.jsx";
-import {AllProducts} from "@/components/AllProducts.jsx";
-import {SuggestProducts} from "@/components/SuggestProducts.jsx";
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+
+import '../Homepage.css';
+import Popup from '../components/Popup.jsx';
+import { Header } from "@/components/ui/Header.jsx";
+import { Footer } from "@/components/ui/Footer.jsx";
+import { AllProducts } from "@/components/AllProducts.jsx";
+import { SuggestProducts } from "@/components/SuggestProducts.jsx";
 
 function HomePage() {
-    // 4.0 Người dùng truy cập vào trang chủ
-    const userId =2 ;
+  const userId = 2;
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState('');
 
-    const handleSelectGlasses = (url) => {
-        console.log('Selected glasses URL:', url);
-    };
+  useEffect(() => {
+    const message = location.state?.message || location.state?.successMessage;
+    if (message) {
+      setPopupMessage(message);
+      setShowPopup(true);
 
-    return (
-        <div>
-            <Header/>
+      const timer = setTimeout(() => {
+        setShowPopup(false);
+      }, 5000);
 
-            <div className="list">
-                <h2>Tất cả sản phẩm</h2>
-                <AllProducts onSelectGlasses={handleSelectGlasses} />
-            </div>
-            <div className="list">
-                <h2>Sản phẩm được gợi ý</h2>
-                <SuggestProducts userId={userId} />
-            </div>
-            <Footer/>
-        </div>
-    );
+      navigate(location.pathname, { replace: true });
+      return () => clearTimeout(timer);
+    }
+  }, [location, navigate]);
+
+  return (
+    <div>
+      <Header />
+      {showPopup && <Popup message={popupMessage} onClose={() => setShowPopup(false)} />}
+      <div className="list">
+        <h2>Tất cả sản phẩm</h2>
+        <AllProducts />
+      </div>
+      <div className="list">
+        <h2>Sản phẩm được gợi ý</h2>
+        <SuggestProducts userId={userId} />
+      </div>
+      <Footer />
+    </div>
+  );
 }
 
-export default HomePage
+export default HomePage;
