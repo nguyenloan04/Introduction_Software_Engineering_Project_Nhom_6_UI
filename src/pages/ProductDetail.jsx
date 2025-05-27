@@ -7,6 +7,7 @@ import {addToHistoryLoggedIn} from '@/utils/viewedHistory';
 import QuantityCard from "@/components/ui/QuantityCard.jsx";
 import {Header} from "@/components/ui/Header.jsx";
 import { addToCart } from '../services/cartService.js';
+import { config } from '../config/apiConfig';
 
 const ProductDetail = () => {
     const handleQuantityChange = (newQty) => {
@@ -23,12 +24,8 @@ const ProductDetail = () => {
 
     const {id} = useParams();
     const [product, setProduct] = useState([]);
-    const [quantity, setQuantity] = useState(1);
-
-    const userId = 2;
-
-    useEffect(() => {
-        fetch(`http://localhost:5000/api/products/${id}`)
+    const [quantity, setQuantity] = useState(1);    const userId = 2;    useEffect(() => {
+        fetch(`${config.BASE_URL}/api/products/${id}`)
             .then((res) => res.json())
             .then((data) => {
                 const prod = data.data.product;
@@ -72,18 +69,22 @@ const ProductDetail = () => {
                     {formatPriceVND(product.price)} VNĐ
                 </div>
                 <QuantityCard initial={1} onChange={handleQuantityChange} />
-                <button
-                    onClick={() => handleAddToCart(product.id, quantity)}
-                    disabled={product.stock <= 0}
-                    className={`mt-6 px-6 py-2 rounded-xl text-white font-medium ${
-                        product.stock > 0 ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-400 cursor-not-allowed'
-                    }`}>
-                    {product.stock > 0 ? 'Thêm vào giỏ hàng' : 'Không thể đặt'}
-                </button>
-                <button
-                    className="try-on-btn">
-                    Thử kính
-                </button>
+                <div className="product-buttons">
+                    <button
+                        onClick={() => handleAddToCart(product.id, quantity)}
+                        disabled={product.stock <= 0}
+                        className={`px-6 py-2 rounded-xl text-white font-medium ${
+                            product.stock > 0 ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-400 cursor-not-allowed'
+                        }`}>
+                        {product.stock > 0 ? 'Thêm vào giỏ hàng' : 'Không thể đặt'}
+                    </button>
+                    <Link to={`/try-glasses/${encodeURIComponent(product.image_url)}`}>
+                        <button
+                            className="px-6 py-2 rounded-xl text-white font-medium bg-green-600 hover:bg-green-700">
+                            Thử kính
+                        </button>
+                    </Link>
+                </div>
             </div>
         </div>
         </div>

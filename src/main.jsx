@@ -7,7 +7,7 @@ import ProductDetail from "@/pages/ProductDetail";
 import LoginPage from './pages/LoginPage';
 import CheckoutPage from './pages/CheckoutPage';
 import ConfirmOrderPage from './pages/ConfirmOrderPage';
-import TryGlasses from './TryGlasses';
+import TryGlasses from './pages/TryGlasses';
 
 const RouteSwitch= () => {
     return (

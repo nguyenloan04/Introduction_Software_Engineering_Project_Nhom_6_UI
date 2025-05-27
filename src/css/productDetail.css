@@ -2,12 +2,27 @@
     /*max-width: 1200px;*/
     display: flex;
     /*height: 100px;*/
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 .product-img{
     object-fit: cover;
     width: 30% ;
     margin: 20px;
+    border-radius: 8px;
 }
-.try-on-btn{
-    margin-left: 10px;
+
+.product-price {
+    font-size: 24px;
+    font-weight: bold;
+    color: #e53e3e;
+    margin: 16px 0;
+}
+
+.product-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
 }
