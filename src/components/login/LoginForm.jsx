@@ -1,46 +1,16 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import '../../styles/login.css';
 
-function LoginForm() {
-  const navigate = useNavigate();
+function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
 
-  // Hàm xử lý khi người dùng nhấn nút "Đăng nhập"
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setError('');
-    setLoading(true);
-    try {
-      const response = await fetch('http://127.0.0.1:5000/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-      });
-      const data = await response.json();
-      if (response.ok && data.token) {
-        // Lưu token vào localStorage
-        localStorage.setItem('token', data.token);
-        alert('Đăng nhập thành công!');
-      } else {
-        setError('Tên đăng nhập hoặc mật khẩu không đúng!');
-      }    } catch (error) {
-      console.error('Lỗi kết nối:', error);
-      setError('Lỗi kết nối đến server!');
-    } finally {
-      setLoading(false);
-    }
+    // Xử lý đăng nhập ở đây
+    alert('Đăng nhập thành công!');
   };
-  
-  const goToRegister = () => {
-    navigate('/register');
-  };
-  
+
   return (
     <div className="login-container">
       <h1 className="login-title">Đăng nhập</h1>
@@ -61,17 +31,12 @@ function LoginForm() {
           className="login-input"
           required
         />
-        {error && <div style={{ color: 'red', marginBottom: 8 }}>{error}</div>}
-        <button type="submit" className="login-button" disabled={loading}>
-          {loading ? 'Đang đăng nhập...' : 'Đăng nhập'}
+        <button type="submit" className="login-button">
+          Đăng nhập
         </button>
-        
-        <div className="login-register-link">
-          Chưa có tài khoản? <span onClick={goToRegister}>Đăng ký ngay</span>
-        </div>
       </form>
     </div>
   );
 }
 
-export default LoginForm;
+export default Login;

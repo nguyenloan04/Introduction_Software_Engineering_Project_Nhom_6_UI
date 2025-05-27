@@ -337,12 +337,6 @@
   border-color: #4a90e2;
 }
 
-.snapshot-section {
-  margin-top: 30px;
-  border-top: 1px solid #eaeaea;
-  padding-top: 20px;
-}
-
 .snapshot-gallery {
   display: flex;
   overflow-x: auto;

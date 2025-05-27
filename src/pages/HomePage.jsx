@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import '../Homepage.css';
+import {useEffect, useState} from 'react'
+import '../Homepage.css'
+import React from 'react';
+import {useLocation, useNavigate} from 'react-router-dom';
 import {Header} from "@/components/ui/Header.jsx";
 import {Footer} from "@/components/ui/Footer.jsx";
 import {AllProducts} from "@/components/AllProducts.jsx";
 import {SuggestProducts} from "@/components/SuggestProducts.jsx";
-import { config } from "@/config/apiConfig.js";
+import {config} from "@/config/apiConfig.js";
 
 function HomePage() {
   const userId = 2;
@@ -31,6 +32,10 @@ function HomePage() {
     } catch (err) {
       console.error('Lỗi khi xóa giỏ hàng:', err);
     }
+  };
+
+  const handleSelectGlasses = (url) => {
+    console.log('Selected glasses URL:', url);
   };
 
   useEffect(() => {
@@ -66,16 +71,12 @@ function HomePage() {
     }
   }, [location, navigate]);
 
-  const handleSelectGlasses = (url) => {
-    console.log('Selected glasses URL:', url);
-  };
-
   return (
     <div>
       <Header/>
       
       {showPopup && (
-        <div className="popup-message">
+        <div className="popup">
           {popupMessage}
         </div>
       )}
