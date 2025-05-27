@@ -1,6 +1,9 @@
 import React, { useRef, useEffect, useState } from 'react';
 import Webcam from 'react-webcam';
 import { useParams } from 'react-router-dom';
+import { Header } from '../components/ui/Header.jsx';
+import '../css/tryGlasses.css';
+import { config } from '../config/apiConfig';
 
 const TryGlasses = () => {
   const { glassesUrl } = useParams();
@@ -9,10 +12,9 @@ const TryGlasses = () => {
   const canvasRef = useRef(null);
   const [socket, setSocket] = useState(null);
   const [imgResult, setImgResult] = useState(null);
-
   // Kết nối WebSocket đến FastAPI
   useEffect(() => {
-    const ws = new WebSocket('ws://localhost:8000/ws');
+    const ws = new WebSocket(config.WS_URL);
     ws.onopen = () => {
       console.log('WebSocket connected');
       ws.send(JSON.stringify({ glassesUrl }));
@@ -70,37 +72,42 @@ const TryGlasses = () => {
       img.src = imgResult;
     }
   }, [imgResult]);
-
   return (
-    <div style={{ position: 'relative', textAlign: 'center' }}>
-      <h2>Thử kính</h2>
-      {/* Ẩn video, chỉ dùng để lấy frame */}
-      <Webcam
-        ref={webcamRef}
-        screenshotFormat="image/png"
-        audio={false}
-        width={640}
-        height={480}
-        style={{
-          width: '100%',
-          maxWidth: '640px',
-        }}
-        videoConstraints={{
-          width: { ideal: 640, min: 640, max: 640 },
-          height: { ideal: 480, min: 480, max: 480 },
-          aspectRatio: 4 / 3,
-          facingMode: "user"
-        }}
-      />
-      {/* Canvas để hiển thị kết quả */}
-      <canvas
-        ref={canvasRef}
-        style={{
-          width: '100%',
-          maxWidth: '640px',
-          border: '1px solid #ccc',
-        }}
-      />
+    <div>
+      <Header />
+      <div className="try-glasses-container">
+        <h2 className="try-glasses-title">Thử kính ảo</h2>
+        {/* Ẩn video, chỉ dùng để lấy frame */}
+        <div className="webcam-container">
+          <Webcam
+            ref={webcamRef}
+            screenshotFormat="image/png"
+            audio={false}
+            width={640}
+            height={480}
+            style={{
+              width: '100%',
+            }}
+            videoConstraints={{
+              width: { ideal: 640, min: 640, max: 640 },
+              height: { ideal: 480, min: 480, max: 480 },
+              aspectRatio: 4 / 3,
+              facingMode: "user"
+            }}
+          />
+        </div>
+        {/* Canvas để hiển thị kết quả */}
+        <canvas
+          ref={canvasRef}
+          className="result-canvas"
+        />
+        <button 
+          className="go-back-button"
+          onClick={() => window.history.back()}
+        >
+          Quay lại
+        </button>
+      </div>
     </div>
   );
 };
