@@ -5,14 +5,25 @@ import "../css/productDetail.css";
 import {formatPriceVND} from '../utils/format';
 import {addToHistoryLoggedIn} from '@/utils/viewedHistory';
 import QuantityCard from "@/components/ui/QuantityCard.jsx";
+import {Header} from "@/components/ui/Header.jsx";
+import { addToCart } from '../services/cartService.js';
 
 const ProductDetail = () => {
     const handleQuantityChange = (newQty) => {
         console.log("Số lượng mới:", newQty);
+        setQuantity(newQty);
         // Có thể gửi đến backend, cập nhật giỏ hàng, v.v.
     };
+
+    const handleAddToCart = async (productId, quantity) => {
+        console.log(`addToCart(${productId}, ${quantity})`);
+        await addToCart(productId, quantity);
+        window.dispatchEvent(new Event("cartUpdated"));
+    };
+
     const {id} = useParams();
     const [product, setProduct] = useState([]);
+    const [quantity, setQuantity] = useState(1);
 
     const userId = 2;
 
@@ -40,6 +51,8 @@ const ProductDetail = () => {
     if (!product) return <p>Đang tải sản phẩm...</p>;
 
     return (
+        <div>
+        <Header/>
         <div className="product-space bg-white shadow-lg mt-6">
             <img
                 src={product.image_url}
@@ -60,6 +73,7 @@ const ProductDetail = () => {
                 </div>
                 <QuantityCard initial={1} onChange={handleQuantityChange} />
                 <button
+                    onClick={() => handleAddToCart(product.id, quantity)}
                     disabled={product.stock <= 0}
                     className={`mt-6 px-6 py-2 rounded-xl text-white font-medium ${
                         product.stock > 0 ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-400 cursor-not-allowed'
@@ -71,7 +85,7 @@ const ProductDetail = () => {
                     Thử kính
                 </button>
             </div>
-
+        </div>
         </div>
     );
 };

@@ -1,8 +1,7 @@
-import {useEffect, useState} from "react";
-import {ProductList} from "@/components/ui/ProductList.jsx";
-import { config } from "../config/apiConfig";
+import { useEffect, useState } from "react";
+import { ProductList } from "@/components/ui/ProductList.jsx";
 import { useNavigate } from 'react-router-dom';
-
+import { config } from "../config/apiConfig";
 
 export const AllProducts = ({ onSelectGlasses }) => {
     const [products, setProducts] = useState([]);

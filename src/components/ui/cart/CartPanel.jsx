@@ -16,7 +16,7 @@ const CartPanel = ({ items, onClose, cartTotalAmount }) => {
       <div className="cart-panel" onClick={e => e.stopPropagation()}>
         <div className="cart-header">
           <h3>Giỏ hàng</h3>
-          <button className="close-button" onClick={onClose}>×</button>
+          {/* <button className="close-button" onClick={onClose}>×</button> */}
           <div className="cart-actions">
               <button className="checkout-button" onClick={handleCheckout}>Thanh toán</button>
             </div>

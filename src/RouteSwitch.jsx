@@ -2,14 +2,13 @@ import React from 'react';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
-import CheckoutPage from './pages/CheckoutPage';
-import { BrowserRouter } from 'react-router-dom';
-import ConfirmOrderPage from './pages/ConfirmOrderPage.jsx';
 import TryGlasses from './TryGlasses';
 import ProductDetail from "@/pages/ProductDetail";
-import App from './App';
+import CheckoutPage from './pages/CheckoutPage';
+import ConfirmOrderPage from './pages/ConfirmOrderPage.jsx';
 
 export default function RouteSwitch() {
+
   return (
     <BrowserRouter>
       <Routes>
@@ -25,3 +24,4 @@ export default function RouteSwitch() {
     </BrowserRouter>
   );
 }
+
