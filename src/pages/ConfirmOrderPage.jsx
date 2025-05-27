@@ -1,4 +1,4 @@
-
+// src/pages/ConfirmOrderPage.jsx
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Header } from '../components/ui/Header.jsx';
@@ -14,6 +14,23 @@ const ConfirmOrderPage = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const token = localStorage.getItem('token');
+
+  // Xóa giỏ hàng
+  const clearCart = async () => {
+    try {
+      if (!token) {
+        console.error('Không có token để xóa giỏ hàng');
+        return;
+      }
+      await fetch(`http://127.0.0.1:5000/api/cart/clear`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      console.log('Giỏ hàng đã được xóa');
+    } catch (err) {
+      console.error('Lỗi khi xóa giỏ hàng:', err);
+    }
+  };
 
   // Kiểm tra dữ liệu đầu vào
   useEffect(() => {
@@ -41,12 +58,13 @@ const ConfirmOrderPage = () => {
       }
 
       if (formData.paymentMethod === 'CASH') {
+        await clearCart();
         navigate('/', { state: { successMessage: 'Đặt hàng thành công!' } });
         return;
       }
 
-      const orderId = order?.orderId; // Sử dụng orderId thay vì id
-      const totalAmount = cartTotalAmount + 100000; // Phí ship 30,000 VND
+      const orderId = order?.orderId;
+      const totalAmount = cartTotalAmount + 100000; // Phí ship 100,000 VND
 
       // Kiểm tra orderId và totalAmount
       if (!orderId || isNaN(totalAmount)) {
