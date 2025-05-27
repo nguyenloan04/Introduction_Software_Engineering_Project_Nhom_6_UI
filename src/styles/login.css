@@ -53,11 +53,36 @@
   border: none;
   border-radius: 8px;
   padding: 14px 0;
-  cursor: pointer;
-  box-shadow: 0 2px 8px #e9effd;
-  transition: background 0.2s;
+  cursor: pointer;  box-shadow: 0 2px 8px #e9effd;
+  transition: all 0.3s ease;
 }
 
 .login-button:hover {
   background: linear-gradient(90deg, #fc5c7d 0%, #6a82fb 100%);
+  transform: translateY(-2px);
+}
+
+.login-button:disabled {
+  background: #cccccc;
+  cursor: not-allowed;
+  transform: translateY(0);
+}
+
+.login-register-link {
+  text-align: center;
+  color: #4a5568;
+  font-size: 1rem;
+  margin-top: 15px;
+}
+
+.login-register-link span {
+  color: #6a82fb;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.login-register-link span:hover {
+  color: #fc5c7d;
+  text-decoration: underline;
 }

@@ -39,13 +39,12 @@ export const Header= () => {
     return (
         <header className="header">
             <Link to="/" className="logo">Mắt kính thời trang</Link>
-            <div className="header-right">
-                <div className="search-container">
+            <div className="header-right">                <div className="search-container">
                     <FaSearch className="search-icon" />
                     <input type="text" placeholder="Tìm kiếm..." className="search-input" />
                 </div>
-                <Link to="/login" className="header-btn">Đăng nhập</Link>
-                {/* <Link to="/register" className="header-btn">Đăng ký</Link> */}
+                <Link to="/login" className="header-btn login-btn">Đăng nhập</Link>
+                <Link to="/register" className="header-btn register-btn">Đăng ký</Link>
                 <FaUser className="user-icon" />
                 {/* <FaShoppingCart className="cart-icon" /> */}
                 <CartIcon count={cartCount} onClick={toggleCart}/>

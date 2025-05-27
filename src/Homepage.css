@@ -51,6 +51,37 @@
   gap: 16px;
 }
 
+.header-btn {
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.login-btn {
+  background-color: transparent;
+  color: #747bff;
+  border: 1px solid #747bff;
+}
+
+.login-btn:hover {
+  background-color: #747bff;
+  color: white;
+}
+
+.register-btn {
+  background-color: #747bff;
+  color: white;
+  border: 1px solid #747bff;
+}
+
+.register-btn:hover {
+  background-color: #6470ff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
 .search-container {
   position: relative;
 }
