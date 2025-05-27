@@ -5,6 +5,7 @@ import { Header } from '../components/ui/Header.jsx';
 import { Footer } from '../components/ui/Footer.jsx';
 import { Button } from '../components/ui/Button.jsx';
 import { config } from '@/config/apiConfig';
+import '../css/ConfirmOrderPage.css';
 
 const ConfirmOrderPage = () => {
   const location = useLocation();
@@ -126,47 +127,54 @@ const ConfirmOrderPage = () => {
   return (
     <>
       <Header />
-      <div className="p-6 max-w-3xl mx-auto">
-        <h2 className="text-xl font-bold mb-4">Xác nhận đơn hàng</h2>
-        {error && <p className="text-red-500 mb-4">{error}</p>}
+      <div className="confirm-order-container">
+        <div className="confirm-order-card">
+          <h2 className="confirm-order-title">Xác nhận đơn hàng</h2>
+          {error && <p className="error-message">{error}</p>}
 
-        <div className="bg-gray-100 p-4 rounded mb-4">
-          <p><strong>Họ tên:</strong> {formData.fullName}</p>
-          <p><strong>Địa chỉ:</strong> {formData.address}</p>
-          <p><strong>Số điện thoại:</strong> {formData.phone}</p>
-          <p><strong>Phương thức:</strong> {formData.paymentMethod === 'CARD' ? 'VNPay' : 'Thanh toán khi nhận'}</p>
-          <p><strong>Mã đơn hàng:</strong> {order.orderId || 'Không có'}</p>
-        </div>
+          <div className="order-info">
+            <p><strong>Họ tên:</strong> {formData.fullName}</p>
+            <p><strong>Địa chỉ:</strong> {formData.address}</p>
+            <p><strong>Số điện thoại:</strong> {formData.phone}</p>
+            <p><strong>Phương thức:</strong> {formData.paymentMethod === 'CARD' ? 'VNPay' : 'Thanh toán khi nhận'}</p>
+            <p><strong>Mã đơn hàng:</strong> {order.orderId || 'Không có'}</p>
+          </div>
 
-        <h3 className="text-lg font-semibold mb-2">Sản phẩm:</h3>
-        {cartItems.length === 0 ? (
-          <p>Không có sản phẩm nào trong giỏ hàng.</p>
-        ) : (
-          <ul className="mb-4">
-            {cartItems.map((item) => (
-              <li key={item.id} className="mb-2">
-                {item.Product?.name || 'Sản phẩm'} x {item.quantity} -{' '}
-                {(item.Product?.price * item.quantity).toLocaleString()} VND
-              </li>
-            ))}
-          </ul>
-        )}
+          <h3 className="products-title">Sản phẩm:</h3>
+          {cartItems.length === 0 ? (
+            <p className="text-gray-600">Không có sản phẩm nào trong giỏ hàng.</p>
+          ) : (
+            <ul className="product-list">
+              {cartItems.map((item) => (
+                <li key={item.id} className="product-item">
+                  <span>{item.Product?.name || 'Sản phẩm'} x {item.quantity}</span>
+                  <span>{(item.Product?.price * item.quantity).toLocaleString()} VND</span>
+                </li>
+              ))}
+            </ul>
+          )}
 
-        <p className="text-lg font-bold">
-          Tổng thanh toán: {(cartTotalAmount + 100000).toLocaleString()} VND (đã gồm phí ship 100,000 VND)
-        </p>
+          <p className="total-amount">
+            Tổng thanh toán: {(cartTotalAmount + 100000).toLocaleString()} VND
+            <span>(đã gồm phí ship 100,000 VND)</span>
+          </p>
 
-        <div className="mt-4 flex gap-4">
-          <Button className="bg-gray-500 text-white" onClick={() => navigate(-1)} disabled={isLoading}>
-            Quay lại
-          </Button>
-          <Button
-            className="bg-black text-white"
-            onClick={handleConfirmOrder}
-            disabled={isLoading}
-          >
-            {isLoading ? 'Đang xử lý...' : 'Thanh toán'}
-          </Button>
+          <div className="button-group">
+            <Button
+              className="bg-gray-500 text-white px-6 py-2 rounded hover:bg-gray-600 transition"
+              onClick={() => navigate(-1)}
+              disabled={isLoading}
+            >
+              Quay lại
+            </Button>
+            <Button
+              className="bg-black text-white px-6 py-2 rounded hover:bg-gray-800 transition"
+              onClick={handleConfirmOrder}
+              disabled={isLoading}
+            >
+              {isLoading ? 'Đang xử lý...' : 'Thanh toán'}
+            </Button>
+          </div>
         </div>
       </div>
       <Footer />

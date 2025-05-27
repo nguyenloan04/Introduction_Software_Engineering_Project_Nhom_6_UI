@@ -135,7 +135,7 @@ const CheckoutPage = () => {
 
         <div className="checkout-container">
           <div className="order-summary">
-            <h3 className="text-lg font-bold mb-4">Thông tin đơn hàng</h3>
+            <h3 id='tongtien' className="text-lg font-bold mb-4">Thông tin đơn hàng</h3>
             {cartItems.length === 0 ? (
               <p>Giỏ hàng trống.</p>
             ) : (
@@ -156,7 +156,7 @@ const CheckoutPage = () => {
                   </div>
                 ))}
                 <div className="mt-4">
-                  <h4 className="text-lg font-bold text-gray-900">
+                  <h4 id='tongtien' className="text-lg font-bold text-gray-900">
                     Tổng tiền: {cartTotalAmount.toLocaleString()} VND
                   </h4>
                 </div>
@@ -165,7 +165,7 @@ const CheckoutPage = () => {
           </div>
 
           <div className="checkout-form">
-            <h3 className="text-lg font-bold mb-4 text-gray-900">Thông tin giao hàng</h3>
+            <h3 id='tongtien' className="text-lg font-bold mb-4 text-gray-900">Thông tin giao hàng</h3>
             <form onSubmit={handleCheckout}>
               <div className="mb-4">
                 <label className="block text-gray-700 mb-1">Họ và tên</label>
