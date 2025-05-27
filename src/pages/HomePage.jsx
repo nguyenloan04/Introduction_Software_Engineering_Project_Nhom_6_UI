@@ -1,32 +1,50 @@
-import {useEffect, useState} from 'react'
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-import '../Homepage.css'
-import {Header} from "@/components/ui/Header.jsx";
-import {Footer} from "@/components/ui/Footer.jsx";
-import {AllProducts} from "@/components/AllProducts.jsx";
-import {SuggestProducts} from "@/components/SuggestProducts.jsx";
+import '../Homepage.css';
+import Popup from '../components/Popup.jsx';
+import { Header } from "@/components/ui/Header.jsx";
+import { Footer } from "@/components/ui/Footer.jsx";
+import { AllProducts } from "@/components/AllProducts.jsx";
+import { SuggestProducts } from "@/components/SuggestProducts.jsx";
 
 function HomePage() {
-    const userId =1 ;
-    const navigate = useNavigate();
+  const userId = 2;
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState('');
 
-    return (
-        <div>
-            <Header/>
-            
-            <div className="list">
-                <h2>Tất cả sản phẩm</h2>
-                <AllProducts />
-            </div>
-            <div className="list">
-                <h2>Sản phẩm được gợi ý</h2>
-                <SuggestProducts userId={userId} />
-            </div>
-            <Footer/>
-        </div>
-    );
+  useEffect(() => {
+    const message = location.state?.message || location.state?.successMessage;
+    if (message) {
+      setPopupMessage(message);
+      setShowPopup(true);
+
+      const timer = setTimeout(() => {
+        setShowPopup(false);
+      }, 5000);
+
+      navigate(location.pathname, { replace: true });
+      return () => clearTimeout(timer);
+    }
+  }, [location, navigate]);
+
+  return (
+    <div>
+      <Header />
+      {showPopup && <Popup message={popupMessage} onClose={() => setShowPopup(false)} />}
+      <div className="list">
+        <h2>Tất cả sản phẩm</h2>
+        <AllProducts />
+      </div>
+      <div className="list">
+        <h2>Sản phẩm được gợi ý</h2>
+        <SuggestProducts userId={userId} />
+      </div>
+      <Footer />
+    </div>
+  );
 }
 
-export default HomePage
+export default HomePage;
