@@ -1,12 +1,17 @@
 import React from 'react';
-import {ProductCard} from '@/components/ui/Card.jsx';
+import { ProductCard } from '@/components/ui/Card.jsx';
 import '@/css/productList.css';
 
-export const ProductList = ({ products }) => {
+// Updated to render children passed to ProductList
+export const ProductList = ({ products, onProductClick }) => {
     return (
         <div className="product-grid">
             {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard
+                    key={product.id}
+                    product={product}
+                    onTryGlasses={(url) => onProductClick({ ...product, imageUrl: url })}
+                />
             ))}
         </div>
     );
