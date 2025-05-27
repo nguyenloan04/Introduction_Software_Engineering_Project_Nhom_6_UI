@@ -7,6 +7,7 @@ import {Footer} from "@/components/ui/Footer.jsx";
 import {AllProducts} from "@/components/AllProducts.jsx";
 import {SuggestProducts} from "@/components/SuggestProducts.jsx";
 import {config} from "@/config/apiConfig.js";
+import Popup from "@/components/Popup.jsx";
 
 function HomePage() {
   const userId = 2;
@@ -76,10 +77,9 @@ function HomePage() {
       <Header/>
       
       {showPopup && (
-        <div className="popup">
-          {popupMessage}
-        </div>
-      )}
+  <Popup message={popupMessage} onClose={() => setShowPopup(false)} />
+)}
+
 
       <div className="list">
         <h2>Tất cả sản phẩm</h2>
