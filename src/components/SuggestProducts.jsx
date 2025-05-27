@@ -6,7 +6,6 @@ export const SuggestProducts= ({userId}) =>{
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
-
         //4.1 Kiểm tra xem người dùng đã đăng nhập chưa (userId có null không) và gửi userId về cho server
         const endpoint = userId
             ? `${config.BASE_URL}/api/suggested-products/${userId}`
