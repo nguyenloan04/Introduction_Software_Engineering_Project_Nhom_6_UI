@@ -23,7 +23,7 @@ const ConfirmOrderPage = () => {
         console.error('Không có token để xóa giỏ hàng');
         return;
       }
-      await fetch(`http://127.0.0.1:5000/api/cart/clear`, {
+      await fetch(`${config.BASE_URL}/api/cart/clear`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });
