@@ -5,8 +5,10 @@ import { Header } from '../components/ui/Header.jsx';
 import '../css/tryGlasses.css';
 import { config } from '../config/apiConfig';
 
-const TryGlasses = () => {  const { glassesUrl } = useParams();
-  console.log('TryGlasses page - glassesUrl:', glassesUrl);
+/* [Bước 3.3. Khởi tạo TryGlasses] */
+const TryGlasses = () => {  
+    // [Bước 3.17 Chọn kính khác]
+    const { glassesUrl } = useParams();  console.log('TryGlasses page - glassesUrl:', glassesUrl);
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
   const [socket, setSocket] = useState(null);
@@ -14,21 +16,21 @@ const TryGlasses = () => {  const { glassesUrl } = useParams();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [snapshots, setSnapshots] = useState([]);
-  const [currentSnapshot, setCurrentSnapshot] = useState(null);  const [showGuide, setShowGuide] = useState(true);
-  
-  // Kết nối WebSocket đến FastAPI
+  const [currentSnapshot, setCurrentSnapshot] = useState(null);
+  const [showGuide, setShowGuide] = useState(true);
+
+  /* [Bước 3.4. Yêu cầu quyền camera] */
   useEffect(() => {
     setIsLoading(true);
-    setError(null); // Reset lỗi khi kết nối lại
-    
-    const ws = new WebSocket(config.WS_URL);
-    
-    ws.onopen = () => {
+    setError(null); // Reset lỗi khi kết nối lại    
+    // [Bước 3.10 Kết nối WebSocket]
+    const ws = new WebSocket(config.WS_URL);ws.onopen = () => {
       console.log('WebSocket connected');
       setError(null); // Đảm bảo không có lỗi khi kết nối thành công
       ws.send(JSON.stringify({ glassesUrl }));
     };
     
+    /* [Bước 3.15. Trả ảnh] WebSocket.onmessage() */    
     ws.onmessage = (event) => {
       // Nhận ảnh đã ghép kính (base64)
       setImgResult(event.data);
@@ -50,21 +52,22 @@ const TryGlasses = () => {  const { glassesUrl } = useParams();
       ws.close();
     };
   }, [glassesUrl]);
-  // Gửi hình từ webcam qua WebSocket
+
   useEffect(() => {
     const interval = setInterval(() => {
       if (
         webcamRef.current &&
         socket &&
         socket.readyState === WebSocket.OPEN &&
-        glassesUrl && // Chỉ gửi khi đã chọn kính
-        !currentSnapshot // Không gửi khi đang xem ảnh đã chụp
+        glassesUrl // Chỉ gửi khi đã chọn kính        
       ) {
-        const imageSrc = webcamRef.current.getScreenshot();
-        // Chỉ gửi nếu ảnh base64 đủ dài (tránh ảnh trống)
+        /* [Bước 3.13.1. Chụp frame] getScreenshot() */
+        const imageSrc = webcamRef.current.getScreenshot();        // Chỉ gửi nếu ảnh base64 đủ dài (tránh ảnh trống)
         if (imageSrc && imageSrc.length > 1000 && imageSrc.startsWith('data:image')) {
+          /* [Bước 3.13.2 Gửi frame + URL kính] */          
           const payload = {
             image: imageSrc,
+            /* [Bước 3.12. Gửi URL kính]  */
             glasses_url: glassesUrl,
           };
           socket.send(JSON.stringify(payload)); // Gửi frame + URL kính
@@ -74,8 +77,7 @@ const TryGlasses = () => {  const { glassesUrl } = useParams();
 
     return () => clearInterval(interval);
   }, [socket, glassesUrl, currentSnapshot]);
-
-  // Hiển thị ảnh kết quả lên canvas
+  
   useEffect(() => {
     if (imgResult && canvasRef.current) {
       const canvas = canvasRef.current;
@@ -85,12 +87,13 @@ const TryGlasses = () => {  const { glassesUrl } = useParams();
         canvas.width = img.width;
         canvas.height = img.height;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // [Bước 3.16 Hiển thị kết quả]
         ctx.drawImage(img, 0, 0, img.width, img.height);
       };
       img.src = imgResult;
     }
   }, [imgResult]);
-  // Chụp ảnh hiện tại
+  
   const captureSnapshot = () => {
     if (imgResult) {
       const newSnapshots = [...snapshots, imgResult];
@@ -106,7 +109,9 @@ const TryGlasses = () => {  const { glassesUrl } = useParams();
     }, 10000);
     
     return () => clearTimeout(timer);
-  }, []);  return (
+  }, []);
+  
+  return (
     <div className="try-glasses-page">
       <Header />
       
@@ -114,8 +119,7 @@ const TryGlasses = () => {  const { glassesUrl } = useParams();
         <h1>Thử Kính Trực Tuyến</h1>
         <p>Hãy thử kính trực tuyến với công nghệ AI để xem kính phù hợp với bạn như thế nào!</p>
       </div>
-      
-      <div className="try-glasses-container single-column">
+        <div className="try-glasses-container single-column">
         {/* Phần webcam và kết quả */}
         <div className="try-glasses-section">
           <h2 className="section-title">
@@ -246,8 +250,7 @@ const TryGlasses = () => {  const { glassesUrl } = useParams();
               <li>Nhấn nút chụp ảnh để lưu lại kết quả</li>
             </ol>
           </div>
-          
-          <div className="action-buttons">
+            <div className="action-buttons">
             <Link to="/" className="button secondary-button">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="10"></circle>

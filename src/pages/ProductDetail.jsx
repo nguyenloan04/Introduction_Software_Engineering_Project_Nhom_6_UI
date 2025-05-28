@@ -75,10 +75,10 @@ const ProductDetail = () => {
                         disabled={product.stock <= 0}
                         className={`px-6 py-2 rounded-xl text-white font-medium ${
                             product.stock > 0 ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-400 cursor-not-allowed'
-                        }`}>
-                        {product.stock > 0 ? 'Thêm vào giỏ hàng' : 'Không thể đặt'}
-                    </button>
-                    <Link to={`/try-glasses/${encodeURIComponent(product.image_url)}`}>
+                        }`}>                        {product.stock > 0 ? 'Thêm vào giỏ hàng' : 'Không thể đặt'}                   
+                        </button>                     
+                        {/* [Bước 3.1. Nhấn vào button "Thử kính"] */}
+                     <Link to={`/try-glasses/${encodeURIComponent(product.image_url)}`}>
                         <button
                             className="px-6 py-2 rounded-xl text-white font-medium bg-green-600 hover:bg-green-700">
                             Thử kính
