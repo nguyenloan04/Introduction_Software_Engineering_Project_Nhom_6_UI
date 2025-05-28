@@ -14,8 +14,7 @@ export const AllProducts = ({ onSelectGlasses }) => {
                 setProducts(data.data.products);
             })
             .catch((err) => console.error('Lỗi khi lấy sản phẩm:', err));
-    }, []);
-
+    }, []);  
     const handleProductClick = (product) => {
         onSelectGlasses(product.imageUrl); // Gọi hàm để lưu URL kính
         navigate(`/try-glasses/${encodeURIComponent(product.imageUrl)}`); // Điều hướng đến trang thử kính
